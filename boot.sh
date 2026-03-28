@@ -1,1 +1,1 @@
-qemu-system-aarch64 -machine virt -cpu cortex-a57 -nographic -kernel out/kernel.elf -S -s
+qemu-system-aarch64 -machine virt -cpu cortex-a57 -nographic -kernel out/kernel.elf #-S -s
