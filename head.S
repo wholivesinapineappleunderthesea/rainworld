@@ -1,24 +1,16 @@
 .section .text.head._start
 .global _start
 _start:
-	#mrs x0, CurrentEL
-	mov w0, #0x41
-	bl writechar
-	mov w0, #0x41
-	bl writechar
-	mov w0, #0x41
-	bl writechar
-1:
-	wfi
-	b 1b
+	# Setup SP (16k size)
+	# If it overflows it will overwrite _start, 
+	# and below the image
+	adrp x1, _early_stack_high
+	add x1, x1, :lo12:_early_stack_high
+	add sp, x1, #0
+	adrp x1, _start
+	b _start_c
 
-#     [VIRT_UART0] =              { 0x09000000, 0x00001000 },
-.section .text.head.writechar
-writechar:
-	mov		x1, #0x09000000
-1:
-	ldr w2, [x1, #0x18]
-	tst w2, #32
-	b.ne 1b
-	str	 w0, [x1]
-	ret
+.balign 16
+_early_stack_low:
+.skip 4096*4, 0
+_early_stack_high:

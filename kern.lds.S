@@ -9,7 +9,6 @@ PHDRS
 
 SECTIONS
 {
-	. = 0x40080000;
 	.text.head : {
 		*(.text.head._start)
 		*(.text.head*)
